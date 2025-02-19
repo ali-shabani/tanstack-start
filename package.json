@@ -1,0 +1,49 @@
+{
+  "name": "tanstack-start",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ai-sdk/openai": "^1.1.12",
+    "@apollo/client": "^3.13.1",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@tailwindcss/postcss": "^4.0.7",
+    "@tailwindcss/vite": "^4.0.7",
+    "@tanstack/react-query": "^5.66.7",
+    "@tanstack/react-query-devtools": "^5.66.7",
+    "@tanstack/react-router": "^1.87.2",
+    "@tanstack/start": "^1.87.2",
+    "@tanstack/zod-adapter": "^1.106.0",
+    "ai": "^4.1.41",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "gql.tada": "^1.8.10",
+    "graphql": "^16.10.0",
+    "lucide-react": "^0.475.0",
+    "ollama-ai-provider": "^1.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss": "^4.0.7",
+    "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "^3.1.1",
+    "vinxi": "^0.5.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "postcss": "^8.5.2",
+    "typescript": "^5.7.2",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "plugins": [
+      {
+        "name": "gql.tada/ts-plugin",
+        "schema": "https://rickandmortyapi.com/graphql",
+        "tadaOutputLocation": "./app/gql/graphql-env.d.ts"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./app/*"]
+    }
+  }
+}
