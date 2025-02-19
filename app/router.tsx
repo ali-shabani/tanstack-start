@@ -26,11 +26,13 @@ export function createRouter(mode?: "client") {
   router.options = {
     ...router.options,
     dehydrate: () => {
+      console.log("dehydrating");
       return {
         apolloState: apolloClient.extract(),
       };
     },
     hydrate: (dehydrated: any) => {
+      console.log("hydrating");
       apolloClient.cache.restore(dehydrated.apolloState);
     },
     Wrap: function Wrap({ children }) {
