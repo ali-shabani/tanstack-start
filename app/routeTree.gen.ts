@@ -11,18 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as RickAndMortyImport } from './routes/rick-and-morty'
 import { Route as MoviesImport } from './routes/movies'
 import { Route as IndexImport } from './routes/index'
+import { Route as RickAndMortyCharactersImport } from './routes/rick-and-morty/characters'
 import { Route as MoviesIdImport } from './routes/movies_/$id'
+import { Route as RickAndMortyCharactersIdImport } from './routes/rick-and-morty/characters_.$id'
 
 // Create/Update Routes
-
-const RickAndMortyRoute = RickAndMortyImport.update({
-  id: '/rick-and-morty',
-  path: '/rick-and-morty',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const MoviesRoute = MoviesImport.update({
   id: '/movies',
@@ -36,9 +31,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const RickAndMortyCharactersRoute = RickAndMortyCharactersImport.update({
+  id: '/rick-and-morty/characters',
+  path: '/rick-and-morty/characters',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MoviesIdRoute = MoviesIdImport.update({
   id: '/movies_/$id',
   path: '/movies/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RickAndMortyCharactersIdRoute = RickAndMortyCharactersIdImport.update({
+  id: '/rick-and-morty/characters_/$id',
+  path: '/rick-and-morty/characters/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,18 +67,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoviesImport
       parentRoute: typeof rootRoute
     }
-    '/rick-and-morty': {
-      id: '/rick-and-morty'
-      path: '/rick-and-morty'
-      fullPath: '/rick-and-morty'
-      preLoaderRoute: typeof RickAndMortyImport
-      parentRoute: typeof rootRoute
-    }
     '/movies_/$id': {
       id: '/movies_/$id'
       path: '/movies/$id'
       fullPath: '/movies/$id'
       preLoaderRoute: typeof MoviesIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/rick-and-morty/characters': {
+      id: '/rick-and-morty/characters'
+      path: '/rick-and-morty/characters'
+      fullPath: '/rick-and-morty/characters'
+      preLoaderRoute: typeof RickAndMortyCharactersImport
+      parentRoute: typeof rootRoute
+    }
+    '/rick-and-morty/characters_/$id': {
+      id: '/rick-and-morty/characters_/$id'
+      path: '/rick-and-morty/characters/$id'
+      fullPath: '/rick-and-morty/characters/$id'
+      preLoaderRoute: typeof RickAndMortyCharactersIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -82,46 +96,67 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
-  '/rick-and-morty': typeof RickAndMortyRoute
   '/movies/$id': typeof MoviesIdRoute
+  '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
+  '/rick-and-morty/characters/$id': typeof RickAndMortyCharactersIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
-  '/rick-and-morty': typeof RickAndMortyRoute
   '/movies/$id': typeof MoviesIdRoute
+  '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
+  '/rick-and-morty/characters/$id': typeof RickAndMortyCharactersIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
-  '/rick-and-morty': typeof RickAndMortyRoute
   '/movies_/$id': typeof MoviesIdRoute
+  '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
+  '/rick-and-morty/characters_/$id': typeof RickAndMortyCharactersIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/movies' | '/rick-and-morty' | '/movies/$id'
+  fullPaths:
+    | '/'
+    | '/movies'
+    | '/movies/$id'
+    | '/rick-and-morty/characters'
+    | '/rick-and-morty/characters/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movies' | '/rick-and-morty' | '/movies/$id'
-  id: '__root__' | '/' | '/movies' | '/rick-and-morty' | '/movies_/$id'
+  to:
+    | '/'
+    | '/movies'
+    | '/movies/$id'
+    | '/rick-and-morty/characters'
+    | '/rick-and-morty/characters/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/movies'
+    | '/movies_/$id'
+    | '/rick-and-morty/characters'
+    | '/rick-and-morty/characters_/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MoviesRoute: typeof MoviesRoute
-  RickAndMortyRoute: typeof RickAndMortyRoute
   MoviesIdRoute: typeof MoviesIdRoute
+  RickAndMortyCharactersRoute: typeof RickAndMortyCharactersRoute
+  RickAndMortyCharactersIdRoute: typeof RickAndMortyCharactersIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MoviesRoute: MoviesRoute,
-  RickAndMortyRoute: RickAndMortyRoute,
   MoviesIdRoute: MoviesIdRoute,
+  RickAndMortyCharactersRoute: RickAndMortyCharactersRoute,
+  RickAndMortyCharactersIdRoute: RickAndMortyCharactersIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -136,8 +171,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/movies",
-        "/rick-and-morty",
-        "/movies_/$id"
+        "/movies_/$id",
+        "/rick-and-morty/characters",
+        "/rick-and-morty/characters_/$id"
       ]
     },
     "/": {
@@ -146,11 +182,14 @@ export const routeTree = rootRoute
     "/movies": {
       "filePath": "movies.tsx"
     },
-    "/rick-and-morty": {
-      "filePath": "rick-and-morty.tsx"
-    },
     "/movies_/$id": {
       "filePath": "movies_/$id.tsx"
+    },
+    "/rick-and-morty/characters": {
+      "filePath": "rick-and-morty/characters.tsx"
+    },
+    "/rick-and-morty/characters_/$id": {
+      "filePath": "rick-and-morty/characters_.$id.tsx"
     }
   }
 }

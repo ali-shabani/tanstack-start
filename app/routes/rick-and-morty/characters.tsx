@@ -59,7 +59,7 @@ const defaultValues = {
   page: 1,
 };
 
-export const Route = createFileRoute("/rick-and-morty")({
+export const Route = createFileRoute("/rick-and-morty/characters")({
   component: () => (
     <Suspense fallback={<div>suspended...</div>}>
       <RouteComponent />
@@ -130,25 +130,33 @@ function RouteComponent() {
                 delay: 0.1,
               }}
             >
-              <Card className="overflow-hidden">
-                <CardHeader className="p-0">
-                  {character?.image ? (
-                    <img
-                      src={character.image}
-                      alt={character?.name ?? ""}
-                      className="w-full h-48 object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-400">No image available</span>
-                    </div>
-                  )}
-                </CardHeader>
-                <CardContent className="p-4">
-                  <h2 className="text-xl font-semibold">{character?.name}</h2>
-                  {character && <EpisodeInfo character={character} />}
-                </CardContent>
-              </Card>
+              <Link
+                from={Route.fullPath}
+                to={`$id`}
+                params={{ id: character?.id ?? "" }}
+              >
+                <Card className="overflow-hidden">
+                  <CardHeader className="p-0">
+                    {character?.image ? (
+                      <img
+                        src={character.image}
+                        alt={character?.name ?? ""}
+                        className="w-full h-48 object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-400">
+                          No image available
+                        </span>
+                      </div>
+                    )}
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <h2 className="text-xl font-semibold">{character?.name}</h2>
+                    {character && <EpisodeInfo character={character} />}
+                  </CardContent>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </div>
