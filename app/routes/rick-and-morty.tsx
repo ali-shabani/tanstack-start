@@ -1,4 +1,11 @@
-import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  linkOptions,
+  stripSearchParams,
+  useRouter,
+  useRouterState,
+} from "@tanstack/react-router";
 import { useSuspenseQuery } from "@apollo/client/react/hooks/useSuspenseQuery";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod";
@@ -10,6 +17,7 @@ import {
   PaginationPrevious,
   PaginationNext,
   PaginationLink,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { PageTransition } from "@/components/PageTransition";
 import { motion } from "motion/react";
@@ -19,6 +27,7 @@ import {
   EpisodeInfo,
 } from "@/components/episode-info";
 import { graphql } from "@/gql";
+import { Suspense } from "react";
 
 const CHARACTERS = graphql(
   `
@@ -43,17 +52,28 @@ const CHARACTERS = graphql(
 );
 
 const schema = z.object({
-  page: z.number().optional().default(1),
+  page: z.number().default(1),
 });
 
+const defaultValues = {
+  page: 1,
+};
+
 export const Route = createFileRoute("/rick-and-morty")({
-  component: RouteComponent,
+  component: () => (
+    <Suspense fallback={<div>suspended...</div>}>
+      <RouteComponent />
+    </Suspense>
+  ),
   validateSearch: zodValidator(schema),
+  search: {
+    middlewares: [stripSearchParams(defaultValues)],
+  },
   loaderDeps: ({ search: { page } }) => ({
     page,
   }),
   loader: async ({ context, deps }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     await context.apolloClient.query({
       query: CHARACTERS,
       variables: {
@@ -61,6 +81,24 @@ export const Route = createFileRoute("/rick-and-morty")({
       },
     });
   },
+  errorComponent: ({ error }) => {
+    const router = useRouter();
+
+    // Render an error message
+    return (
+      <div>
+        {error.message}
+        <button
+          onClick={() => {
+            router.invalidate();
+          }}
+        >
+          Reset
+        </button>
+      </div>
+    );
+  },
+  pendingComponent: () => <div>Loading...</div>,
 });
 
 function RouteComponent() {
@@ -72,11 +110,11 @@ function RouteComponent() {
   });
   const { isLoading } = useRouterState();
 
-  const { characters, info } = data;
+  const { characters } = data;
 
   return (
     <PageTransition>
-      <div className="container py-8">
+      <div className="container mx-auto py-8">
         <div
           className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 transition-opacity duration-200 ${
             isLoading ? "opacity-50" : "opacity-100"
@@ -94,11 +132,17 @@ function RouteComponent() {
             >
               <Card className="overflow-hidden">
                 <CardHeader className="p-0">
-                  <img
-                    src={character?.image}
-                    alt={character?.name}
-                    className="w-full h-48 object-cover"
-                  />
+                  {character?.image ? (
+                    <img
+                      src={character.image}
+                      alt={character?.name ?? ""}
+                      className="w-full h-48 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-400">No image available</span>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent className="p-4">
                   <h2 className="text-xl font-semibold">{character?.name}</h2>
@@ -109,56 +153,43 @@ function RouteComponent() {
           ))}
         </div>
 
-        {data?.characters?.info && (
-          <div
-            className={`mt-8 flex justify-center transition-opacity duration-200 ${
-              isLoading ? "opacity-50" : "opacity-100"
-            }`}
-          >
-            <Pagination className="max-w-full">
-              <PaginationContent className="flex-wrap gap-2">
+        <div className="py-8">
+          {data?.characters?.info && (
+            <Pagination>
+              <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious>
-                    {(search, ...props) => (
-                      <Link
-                        {...props}
-                        to={Route.to}
-                        search={{ page: page - 1 }}
-                        preload="intent"
-                      />
-                    )}
-                  </PaginationPrevious>
+                  <PaginationPrevious
+                    disabled={page === 1}
+                    from={Route.fullPath}
+                    to="."
+                    search={(prev) => ({
+                      page: (prev?.page ?? 1) - 1,
+                    })}
+                  />
                 </PaginationItem>
 
-                <PaginationItem className="hidden sm:block">
-                  <PaginationLink isActive>
-                    {() => (
-                      <>
-                        Page {page} of {data.characters?.info?.pages}
-                      </>
-                    )}
+                <PaginationItem>
+                  <PaginationLink className="w-fit px-2">
+                    <span>
+                      Page {page} of {data.characters?.info?.pages}
+                    </span>
                   </PaginationLink>
                 </PaginationItem>
 
                 <PaginationItem>
-                  <PaginationNext>
-                    {(props) => {
-                      console.log(props);
-                      return (
-                        <Link
-                          to={Route.to}
-                          search={{ page: page + 1 }}
-                          preload="intent"
-                          {...props}
-                        />
-                      );
-                    }}
-                  </PaginationNext>
+                  <PaginationNext
+                    from={Route.fullPath}
+                    to="."
+                    search={(prev) => ({
+                      page: prev.page + 1,
+                    })}
+                    preload="intent"
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </PageTransition>
   );
