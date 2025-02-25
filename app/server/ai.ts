@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/start";
+import { createServerFn } from "@tanstack/react-start";
 import { streamText, tool } from "ai";
 import { createOllama } from "ollama-ai-provider";
 import { z } from "zod";

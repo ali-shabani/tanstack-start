@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@apollo/client/react/hooks/useSuspenseQuery";
 import {
   createFileRoute,
-  ErrorComponentProps,
+  type ErrorComponentProps,
   Link,
   notFound,
 } from "@tanstack/react-router";
@@ -67,25 +67,18 @@ function ErrorComponent({ error }: ErrorComponentProps) {
   const router = useRouter();
   const isZodError = error instanceof Error && error.name === "ZodError";
 
-  const getZodErrorMessage = (error) => {
+  const getZodErrorMessage = (error: Error) => {
     if (!(error instanceof ZodError)) {
-      error = new ZodError(JSON.parse(error.message));
-    }
-    return error.issues
-      .map((issue) => {
-        const path = issue.path.length > 0 ? `[${issue.path.join(".")}] ` : "";
-        const emoji =
-          {
-            invalid_type: "❌",
-            invalid_string: "📝",
-            invalid_number: "🔢",
-            too_small: "⬇️",
-            too_big: "⬆️",
-          }[issue.code] || "⚠️";
+      const zodError = new ZodError(JSON.parse(error.message));
+      return zodError.issues
+        .map((issue) => {
+          const path =
+            issue.path.length > 0 ? `[${issue.path.join(".")}] ` : "";
 
-        return `${emoji} ${path}${issue.message}`;
-      })
-      .join("\n");
+          return `❌ ${path}${issue.message}`;
+        })
+        .join("\n");
+    }
   };
 
   return (

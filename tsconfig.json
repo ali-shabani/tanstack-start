@@ -3,9 +3,24 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "module": "ESNext",
-    "target": "ES2022",
+
+    /* Base Options: */
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "target": "es2022",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    /* If NOT transpiling with TypeScript: */
+    "noEmit": true,
+
     "plugins": [
       {
         "name": "gql.tada/ts-plugin",

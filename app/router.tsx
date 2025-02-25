@@ -1,5 +1,4 @@
 import { InMemoryCache } from "@apollo/client/cache/inmemory/inmemoryCache";
-import { NormalizedCacheObject } from "@apollo/client/cache/inmemory/types";
 import { ApolloClient } from "@apollo/client/core/ApolloClient";
 import { ApolloProvider } from "@apollo/client/react/context/ApolloProvider";
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
@@ -23,6 +22,7 @@ export function createRouter() {
     context: {
       apolloClient,
     },
+    scrollRestoration: true,
   });
 
   router.options = {
@@ -32,7 +32,7 @@ export function createRouter() {
         apolloState: apolloClient.extract(),
       };
     },
-    hydrate: (dehydrated: { apolloState: NormalizedCacheObject }) => {
+    hydrate: (dehydrated) => {
       apolloClient.cache.restore(dehydrated.apolloState);
     },
     Wrap: function Wrap({ children }) {

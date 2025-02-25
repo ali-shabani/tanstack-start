@@ -2,10 +2,10 @@
 import { type ApolloClient, type NormalizedCacheObject } from "@apollo/client";
 import {
   createRootRouteWithContext,
+  HeadContent,
   Outlet,
-  ScrollRestoration,
+  Scripts,
 } from "@tanstack/react-router";
-import { Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
 
 import css from "../styles/index.css?url";
@@ -48,11 +48,10 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html>
       <head>
-        <Meta />
+        <HeadContent />
       </head>
       <body>
         {children}
-        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

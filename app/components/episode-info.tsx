@@ -2,7 +2,7 @@ import { useFragment } from "@apollo/client/react/hooks/useFragment";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { FragmentOf,graphql } from "@/gql";
+import { type FragmentOf, graphql } from "@/gql";
 
 export const CHARACTER_EPISODE_INFO_FRAGMENT = graphql(`
   fragment CharacterEpisodeInfo on Character {
@@ -55,13 +55,13 @@ export function EpisodeInfo({
             {isSingleEpisode ? "Appearance:" : "First appearance:"}
           </p>
           <p>
-            {firstEpisode.episode} - {firstEpisode.air_date}
+            {firstEpisode?.episode} - {firstEpisode?.air_date}
           </p>
           {!isSingleEpisode && (
             <>
               <p className="text-muted-foreground mt-1">Last appearance:</p>
               <p>
-                {lastEpisode.episode} - {lastEpisode.air_date}
+                {lastEpisode?.episode} - {lastEpisode?.air_date}
               </p>
             </>
           )}

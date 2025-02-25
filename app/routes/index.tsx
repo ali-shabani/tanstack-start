@@ -1,7 +1,6 @@
 // app/routes/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-
 export const Route = createFileRoute("/")({
   component: Home,
 });
@@ -9,7 +8,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div>
-      <Link to="/rick-and-morty">Rick and Morty</Link>
+      <Link to="/rick-and-morty/characters">Rick and Morty</Link>
     </div>
   );
 }

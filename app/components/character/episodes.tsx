@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FragmentOf, graphql } from "@/gql";
+import { type FragmentOf, graphql } from "@/gql";
 
 export const CHARACTER_EPISODES = graphql(`
   fragment CharacterEpisodes on Character {
