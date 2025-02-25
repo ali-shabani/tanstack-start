@@ -16,7 +16,7 @@ import {
   EpisodeInfo,
 } from "@/components/episode-info";
 import { PageTransition } from "@/components/PageTransition";
-import { Card, CardContent,CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -79,7 +79,7 @@ export const Route = createFileRoute("/rick-and-morty/characters")({
       },
     });
   },
-  errorComponent: ({ error }) => {
+  errorComponent: function ErrorComponent({ error }) {
     const router = useRouter();
 
     // Render an error message
@@ -175,7 +175,13 @@ function RouteComponent() {
                 </PaginationItem>
 
                 <PaginationItem>
-                  <PaginationLink className="w-fit px-2">
+                  <PaginationLink
+                    to={Route.fullPath}
+                    className="w-fit px-2"
+                    search={(prev) => ({
+                      page: prev?.page ?? 1,
+                    })}
+                  >
                     <span>
                       Page {page} of {data.characters?.info?.pages}
                     </span>

@@ -1,11 +1,12 @@
 import { InMemoryCache } from "@apollo/client/cache/inmemory/inmemoryCache";
+import { NormalizedCacheObject } from "@apollo/client/cache/inmemory/types";
 import { ApolloClient } from "@apollo/client/core/ApolloClient";
 import { ApolloProvider } from "@apollo/client/react/context/ApolloProvider";
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";
 
-export function createRouter(mode?: "client") {
+export function createRouter() {
   const apolloClient = new ApolloClient({
     ssrMode: true,
     uri: "https://rickandmortyapi.com/graphql",
@@ -27,13 +28,11 @@ export function createRouter(mode?: "client") {
   router.options = {
     ...router.options,
     dehydrate: () => {
-      console.log("dehydrating");
       return {
         apolloState: apolloClient.extract(),
       };
     },
-    hydrate: (dehydrated: any) => {
-      console.log("hydrating");
+    hydrate: (dehydrated: { apolloState: NormalizedCacheObject }) => {
       apolloClient.cache.restore(dehydrated.apolloState);
     },
     Wrap: function Wrap({ children }) {

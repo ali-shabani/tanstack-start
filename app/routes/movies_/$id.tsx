@@ -15,11 +15,5 @@ export const Route = createFileRoute("/movies_/$id")({
 
 function RouteComponent() {
   const data = Route.useLoaderData();
-  console.log(data.data);
-  return (
-    <div>
-      Hello "/movies/"!
-      {JSON.stringify(data.data, undefined, 2)}
-    </div>
-  );
+  return <div>{JSON.stringify(data.data, undefined, 2)}</div>;
 }

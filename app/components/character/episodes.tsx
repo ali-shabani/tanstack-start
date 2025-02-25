@@ -18,7 +18,6 @@ export const CHARACTER_EPISODES = graphql(`
       name
       air_date
       episode
-      created
     }
   }
 `);
@@ -28,10 +27,14 @@ export type CharacterEpisodesProps = {
 };
 
 export function CharacterEpisodes({ from }: CharacterEpisodesProps) {
-  const { data } = useFragment({
+  const { data, complete } = useFragment({
     from,
     fragment: CHARACTER_EPISODES,
   });
+
+  if (!complete) {
+    return null;
+  }
 
   const { episode } = data;
 
@@ -54,13 +57,15 @@ export function CharacterEpisodes({ from }: CharacterEpisodesProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {episode.map((ep) => (
-            <TableRow key={ep.id}>
-              <TableCell className="font-medium">{ep.episode}</TableCell>
-              <TableCell>{ep.name}</TableCell>
-              <TableCell>{ep.air_date}</TableCell>
-            </TableRow>
-          ))}
+          {episode
+            .filter((ep): ep is NonNullable<typeof ep> => ep !== null)
+            .map((ep) => (
+              <TableRow key={ep.id}>
+                <TableCell className="font-medium">{ep.episode}</TableCell>
+                <TableCell>{ep.name}</TableCell>
+                <TableCell>{ep.air_date}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>
