@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TicTacToeImport } from './routes/tic-tac-toe'
 import { Route as MoviesImport } from './routes/movies'
 import { Route as IndexImport } from './routes/index'
 import { Route as RickAndMortyCharactersImport } from './routes/rick-and-morty/characters'
@@ -18,6 +19,12 @@ import { Route as MoviesIdImport } from './routes/movies_/$id'
 import { Route as RickAndMortyCharactersIdImport } from './routes/rick-and-morty/characters_.$id'
 
 // Create/Update Routes
+
+const TicTacToeRoute = TicTacToeImport.update({
+  id: '/tic-tac-toe',
+  path: '/tic-tac-toe',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const MoviesRoute = MoviesImport.update({
   id: '/movies',
@@ -67,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoviesImport
       parentRoute: typeof rootRoute
     }
+    '/tic-tac-toe': {
+      id: '/tic-tac-toe'
+      path: '/tic-tac-toe'
+      fullPath: '/tic-tac-toe'
+      preLoaderRoute: typeof TicTacToeImport
+      parentRoute: typeof rootRoute
+    }
     '/movies_/$id': {
       id: '/movies_/$id'
       path: '/movies/$id'
@@ -96,6 +110,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
+  '/tic-tac-toe': typeof TicTacToeRoute
   '/movies/$id': typeof MoviesIdRoute
   '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
   '/rick-and-morty/characters/$id': typeof RickAndMortyCharactersIdRoute
@@ -104,6 +119,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
+  '/tic-tac-toe': typeof TicTacToeRoute
   '/movies/$id': typeof MoviesIdRoute
   '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
   '/rick-and-morty/characters/$id': typeof RickAndMortyCharactersIdRoute
@@ -113,6 +129,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
+  '/tic-tac-toe': typeof TicTacToeRoute
   '/movies_/$id': typeof MoviesIdRoute
   '/rick-and-morty/characters': typeof RickAndMortyCharactersRoute
   '/rick-and-morty/characters_/$id': typeof RickAndMortyCharactersIdRoute
@@ -123,6 +140,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/movies'
+    | '/tic-tac-toe'
     | '/movies/$id'
     | '/rick-and-morty/characters'
     | '/rick-and-morty/characters/$id'
@@ -130,6 +148,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/movies'
+    | '/tic-tac-toe'
     | '/movies/$id'
     | '/rick-and-morty/characters'
     | '/rick-and-morty/characters/$id'
@@ -137,6 +156,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/movies'
+    | '/tic-tac-toe'
     | '/movies_/$id'
     | '/rick-and-morty/characters'
     | '/rick-and-morty/characters_/$id'
@@ -146,6 +166,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MoviesRoute: typeof MoviesRoute
+  TicTacToeRoute: typeof TicTacToeRoute
   MoviesIdRoute: typeof MoviesIdRoute
   RickAndMortyCharactersRoute: typeof RickAndMortyCharactersRoute
   RickAndMortyCharactersIdRoute: typeof RickAndMortyCharactersIdRoute
@@ -154,6 +175,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MoviesRoute: MoviesRoute,
+  TicTacToeRoute: TicTacToeRoute,
   MoviesIdRoute: MoviesIdRoute,
   RickAndMortyCharactersRoute: RickAndMortyCharactersRoute,
   RickAndMortyCharactersIdRoute: RickAndMortyCharactersIdRoute,
@@ -171,6 +193,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/movies",
+        "/tic-tac-toe",
         "/movies_/$id",
         "/rick-and-morty/characters",
         "/rick-and-morty/characters_/$id"
@@ -181,6 +204,9 @@ export const routeTree = rootRoute
     },
     "/movies": {
       "filePath": "movies.tsx"
+    },
+    "/tic-tac-toe": {
+      "filePath": "tic-tac-toe.tsx"
     },
     "/movies_/$id": {
       "filePath": "movies_/$id.tsx"
