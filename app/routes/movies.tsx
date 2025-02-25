@@ -1,8 +1,8 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
+
 import { Route as MoviesIdRoute } from "./movies_/$id";
-import { useDebounceCallback } from "usehooks-ts";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/movies")({
   component: () => (

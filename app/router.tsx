@@ -1,8 +1,9 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { InMemoryCache } from "@apollo/client/cache/inmemory/inmemoryCache";
 import { ApolloClient } from "@apollo/client/core/ApolloClient";
 import { ApolloProvider } from "@apollo/client/react/context/ApolloProvider";
-import { InMemoryCache } from "@apollo/client/cache/inmemory/inmemoryCache";
+import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+
+import { routeTree } from "./routeTree.gen";
 
 export function createRouter(mode?: "client") {
   const apolloClient = new ApolloClient({

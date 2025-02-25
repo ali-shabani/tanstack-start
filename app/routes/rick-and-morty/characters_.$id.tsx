@@ -1,4 +1,3 @@
-import { graphql } from "@/gql";
 import { useSuspenseQuery } from "@apollo/client/react/hooks/useSuspenseQuery";
 import {
   createFileRoute,
@@ -6,19 +5,21 @@ import {
   Link,
   notFound,
 } from "@tanstack/react-router";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import {
-  CharacterLocation,
-  CHARACTER_LOCATION,
-} from "@/components/character/location";
-import { z } from "zod";
 import { useRouter } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { z } from "zod";
 import { ZodError } from "zod";
+
 import { CharacterEpisodes } from "@/components/character/episodes";
 import { CHARACTER_EPISODES } from "@/components/character/episodes";
+import {
+  CHARACTER_LOCATION,
+  CharacterLocation,
+} from "@/components/character/location";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { graphql } from "@/gql";
 
 export const Route = createFileRoute("/rick-and-morty/characters_/$id")({
   component: RouteComponent,

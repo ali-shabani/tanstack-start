@@ -1,7 +1,8 @@
+import { useFragment } from "@apollo/client/react/hooks/useFragment";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { graphql, FragmentOf } from "@/gql";
-import { useFragment } from "@apollo/client/react/hooks/useFragment";
+import { FragmentOf,graphql } from "@/gql";
 
 export const CHARACTER_EPISODE_INFO_FRAGMENT = graphql(`
   fragment CharacterEpisodeInfo on Character {

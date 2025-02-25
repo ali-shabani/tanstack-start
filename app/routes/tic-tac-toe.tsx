@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
@@ -8,7 +7,7 @@ export const Route = createFileRoute("/tic-tac-toe")({
 });
 
 function RouteComponent() {
-  const { history, status, moves, fill, reset, goto } = useTicTacToe();
+  const { history, status, moves, fill, goto, reset } = useTicTacToe();
 
   const state = history.at(-1);
 
@@ -18,6 +17,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+      <button onClick={reset}>Reset</button>
       <Board state={state} fill={fill} />
       <History history={history} goto={goto} />
       <div className="mt-4">{status}</div>

@@ -1,6 +1,6 @@
-import { FragmentOf, graphql } from "@/gql";
 import { useFragment } from "@apollo/client/react/hooks/useFragment";
 import { Tv } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { FragmentOf, graphql } from "@/gql";
 
 export const CHARACTER_EPISODES = graphql(`
   fragment CharacterEpisodes on Character {

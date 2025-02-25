@@ -1,7 +1,7 @@
-import { generateText, streamText, tool } from "ai";
-import { z } from "zod";
-import { createOllama } from "ollama-ai-provider";
 import { createServerFn } from "@tanstack/start";
+import { streamText, tool } from "ai";
+import { createOllama } from "ollama-ai-provider";
+import { z } from "zod";
 
 export async function getWeather({ location }: { location: string }) {
   const ollama = createOllama({

@@ -1,33 +1,31 @@
+import { useSuspenseQuery } from "@apollo/client/react/hooks/useSuspenseQuery";
 import {
   createFileRoute,
   Link,
-  linkOptions,
   stripSearchParams,
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@apollo/client/react/hooks/useSuspenseQuery";
 import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationLink,
-  PaginationEllipsis,
-} from "@/components/ui/pagination";
-import { PageTransition } from "@/components/PageTransition";
 import { motion } from "motion/react";
+import { Suspense } from "react";
+import z from "zod";
 
 import {
   CHARACTER_EPISODE_INFO_FRAGMENT,
   EpisodeInfo,
 } from "@/components/episode-info";
+import { PageTransition } from "@/components/PageTransition";
+import { Card, CardContent,CardHeader } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { graphql } from "@/gql";
-import { Suspense } from "react";
 
 const CHARACTERS = graphql(
   `

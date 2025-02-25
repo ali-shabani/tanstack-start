@@ -1,14 +1,14 @@
 // app/routes/__root.tsx
+import { type ApolloClient, type NormalizedCacheObject } from "@apollo/client";
 import {
+  createRootRouteWithContext,
   Outlet,
   ScrollRestoration,
-  createRootRoute,
-  createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
+
 import css from "../styles/index.css?url";
-import { type ApolloClient, type NormalizedCacheObject } from "@apollo/client";
 
 export const Route = createRootRouteWithContext<{
   apolloClient: ApolloClient<NormalizedCacheObject>;

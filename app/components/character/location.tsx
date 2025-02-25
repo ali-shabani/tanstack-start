@@ -1,7 +1,8 @@
-import { FragmentOf, graphql } from "@/gql";
 import { useFragment } from "@apollo/client/react/hooks/useFragment";
 import { MapPin } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
+import { Card, CardContent,CardHeader, CardTitle } from "@/components/ui/card";
+import { FragmentOf, graphql } from "@/gql";
 
 export const CHARACTER_LOCATION = graphql(`
   fragment CharacterLocation on Character {
